@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerControllerX : MonoBehaviour
 {
     public bool gameOver;
+    public bool isOnGround = false;
 
     public float floatForce;
     private float gravityModifier = 1.5f;
@@ -16,6 +17,7 @@ public class PlayerControllerX : MonoBehaviour
     private AudioSource playerAudio;
     public AudioClip moneySound;
     public AudioClip explodeSound;
+    public AudioClip jumpSound;
 
 
     // Start is called before the first frame update
@@ -61,6 +63,12 @@ public class PlayerControllerX : MonoBehaviour
 
         }
 
+        else if (other.gameObject.CompareTag("Ground"))
+        {
+            isOnGround = true; // Set isOnGround to true when colliding with ground
+            playerRb.AddForce(Vector3.up * 10, ForceMode.Impulse); // Add a small upward force to prevent sinking into the ground
+            playerAudio.PlayOneShot(jumpSound, 1.0f); // Play jump sound when landing on ground
+        }
     }
 
 }
